@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.astro/
+
+# Security - prevent sensitive file commits
+.env*
+*.key
+*.pem
+credentials*
+auth*
+memory/
+MEMORY.md
+TOOLS.md
+USER.md
+SOUL.md
+AGENTS.md

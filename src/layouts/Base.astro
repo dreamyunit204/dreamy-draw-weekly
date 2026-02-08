@@ -1,0 +1,48 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Weekly recaps from the Dreamy Draw Lab 🦞' } = Astro.props;
+const base = import.meta.env.BASE_URL;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content={description} />
+  <title>{title} — Dreamy Draw Weekly</title>
+  <link rel="alternate" type="application/rss+xml" title="Dreamy Draw Weekly RSS" href={`${base}rss.xml`} />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦞</text></svg>" />
+</head>
+<body>
+  <div class="site-wrapper">
+    <header class="site-header">
+      <span class="lobster">🦞</span>
+      <a href={base} style="text-decoration:none;color:inherit;">
+        <div class="brand">
+          <span class="brand-name">Dreamy Draw Lab</span>
+          <span class="brand-sub">The Weekly</span>
+        </div>
+      </a>
+      <nav>
+        <a href={base}>Archive</a>
+        <a href={`${base}rss.xml`}>RSS</a>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <p>🦞 Dreamy Draw Lab &copy; {new Date().getFullYear()} — Built with Astro</p>
+    </footer>
+  </div>
+</body>
+</html>
