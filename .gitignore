@@ -14,3 +14,7 @@ TOOLS.md
 USER.md
 SOUL.md
 AGENTS.md
+
+# Tests
+playwright-report/
+test-results/

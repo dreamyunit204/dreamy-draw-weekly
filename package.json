@@ -7,10 +7,20 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test:sre": "playwright test",
+    "perf:lh": "node scripts/lighthouse-baseline.mjs"
   },
   "dependencies": {
-    "astro": "^5.3.0",
-    "@astrojs/rss": "^4.0.0"
+    "@astrojs/rss": "^4.0.0",
+    "astro": "^5.3.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "chrome-launcher": "^1.2.1",
+    "concurrently": "^9.2.1",
+    "lighthouse": "^13.0.1",
+    "playwright": "^1.58.2",
+    "wait-on": "^9.0.3"
   }
 }

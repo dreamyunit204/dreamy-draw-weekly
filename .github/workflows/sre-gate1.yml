@@ -1,0 +1,63 @@
+name: Gate 1 SRE Checks
+
+on:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 9 * * *' # daily 09:17 UTC
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sre-gate1-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: SRE checks (live site)
+        env:
+          SRE_BASE_URL: https://dreamyunit204.github.io/dreamy-draw-weekly/
+        run: npx playwright test
+
+      - name: Start preview server
+        run: |
+          npm run preview -- --host 127.0.0.1 --port 4321 &
+          npx wait-on http://127.0.0.1:4321/dreamy-draw-weekly/
+
+      - name: Lighthouse baseline (local preview)
+        env:
+          LHCI_URL: http://127.0.0.1:4321/dreamy-draw-weekly/
+          LH_THRESH_PERF: 60
+          LH_THRESH_A11Y: 80
+          LH_THRESH_BP: 80
+          LH_THRESH_SEO: 70
+        run: node scripts/lighthouse-baseline.mjs
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report
+          retention-days: 7
