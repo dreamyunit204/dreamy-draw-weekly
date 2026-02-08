@@ -9,7 +9,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "test:sre": "playwright test",
-    "perf:lh": "node scripts/lighthouse-baseline.mjs"
+    "perf:lh": "node scripts/lighthouse-baseline.mjs",
+    "weekly:new": "node scripts/new-weekly-post.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.0",
