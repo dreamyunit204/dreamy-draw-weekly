@@ -21,7 +21,7 @@ jobs:
       - name: Guardrail: enforce npm ci (block npm install regressions)
         run: |
           if grep -R --line-number -E '^\s*run:\s*npm install(\s|$)' .github/workflows; then
-            echo "❌ CI guardrail failed: use 'npm ci' in workflows, not 'npm install'."
+            echo "ERROR: CI guardrail failed: use 'npm ci' in workflows, not 'npm install'."
             exit 1
           fi
       - uses: actions/setup-node@v4
